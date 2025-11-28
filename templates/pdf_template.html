@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ assessment.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pdf_style.css') }}">
+    <style>
+        body {
+            font-family: "{{ assessment.settings.font }}",
+            sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Cover Page -->
+    <div class="cover-page">
+        <div class="exam-header">
+            {% if assessment.school_logo %}
+            <img src="{{ assessment.school_logo }}" class="school-logo" alt="Logo">
+            {% endif %}
+            <h1>{{ assessment.title }}</h1>
+        </div>
+
+        <div class="student-info">
+            <div class="info-row">
+                <span>Nome do Aluno:</span>
+                <div class="info-line"></div>
+            </div>
+            <div class="info-row">
+                <span>Turma: {{ assessment.class_name }}</span>
+                <span style="margin-left: 20px;">Data: {{ assessment.date }}</span>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>Instruções de Realização</h3>
+            <p>{{ assessment.instructions | replace('\n', '<br>') | safe }}</p>
+        </div>
+    </div>
+
+    <!-- Questions Section -->
+    <div class="questions-container {{ 'two-columns' if assessment.settings.columns == 2 }}">
+        {% for q in assessment.questions %}
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">{{ loop.index }}.</span>
+                <span class="q-text">{{ q.text | safe }}</span>
+            </div>
+
+            {% if q.image %}
+            <img src="{{ q.image }}" class="q-image">
+            {% endif %}
+
+            {% if q.type == 'multiple_choice' %}
+            <ul class="q-options">
+                {% for opt in q.options %}
+                <li class="q-option">
+                    <span class="q-option-marker">{{ 'ABCDE'[loop.index0] }})</span>
+                    {{ opt }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% elif q.type == 'true_false' %}
+            <ul class="q-options">
+                <li class="q-option">( ) Certo</li>
+                <li class="q-option">( ) Errado</li>
+            </ul>
+            {% elif q.type == 'discursive' %}
+            <div class="essay-lines">
+                {% for i in range(5) %}
+                <div style="border-bottom: 1px solid #000; height: 25px; margin-top: 5px;"></div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Essay Section -->
+    {% if assessment.essay.enabled %}
+
+    <!-- 1. Proposal Page -->
+    <div class="essay-proposal-page" style="page-break-before: always;">
+        <div class="exam-header">
+            <h2>Proposta de Redação</h2>
+        </div>
+
+        <div class="essay-instructions">
+            <h3>Instruções</h3>
+            <p>{{ assessment.essay.instructions | replace('\n', '<br>') | safe }}</p>
+        </div>
+
+        {% if assessment.essay.texts %}
+        <div class="essay-texts" style="margin-top: 20px;">
+            <h3>Textos Motivadores</h3>
+            {% for text in assessment.essay.texts %}
+            <div class="essay-text-item" style="margin-bottom: 15px; border-left: 3px solid #ccc; padding-left: 10px;">
+                {{ text | safe }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="essay-theme"
+            style="border: 1px solid #000; padding: 15px; margin: 30px 0; text-align: center; font-weight: bold; font-size: 1.2em;">
+            Tema: {{ assessment.essay.theme }}
+        </div>
+    </div>
+
+    <!-- 2. Draft Page -->
+    <div class="essay-draft-page" style="page-break-before: always;">
+        <div class="exam-header">
+            <h2>Folha de Rascunho</h2>
+        </div>
+        <table class="essay-lines">
+            {% for i in range(30) %}
+            <tr>
+                <td style="width: 30px; text-align: right; padding-right: 5px; border-right: 1px solid #ccc;">{{
+                    loop.index }}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- 3. Definitive Page -->
+    <div class="essay-definitive-page" style="page-break-before: always;">
+        <div class="exam-header">
+            {% if assessment.school_logo %}
+            <img src="{{ assessment.school_logo }}" class="school-logo" alt="Logo">
+            {% endif %}
+            <h2>Folha de Redação</h2>
+        </div>
+
+        <div class="student-info">
+            <div class="info-row">
+                <span>Nome do Aluno:</span>
+                <div class="info-line"></div>
+            </div>
+            <div class="info-row">
+                <span>Turma: {{ assessment.class_name }}</span>
+                <span style="margin-left: 20px;">Data: {{ assessment.date }}</span>
+            </div>
+        </div>
+
+        <div style="text-align: center; font-weight: bold; margin: 10px 0;">FOLHA DEFINITIVA</div>
+
+        <table class="essay-lines">
+            {% for i in range(30) %}
+            <tr>
+                <td style="width: 30px; text-align: right; padding-right: 5px; border-right: 1px solid #000;">{{
+                    loop.index }}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- Discursive Questions Page -->
+    {% set discursive_questions = assessment.questions | selectattr('type', 'equalto', 'discursive') | list %}
+    {% if discursive_questions %}
+    <div class="discursive-questions-page" style="page-break-before: always;">
+        <div class="exam-header">
+            <h2>Questões Discursivas</h2>
+        </div>
+
+        <div class="student-info">
+            <div class="info-row">
+                <span>Nome:</span>
+                <div class="info-line"></div>
+            </div>
+        </div>
+
+        {% for q in assessment.questions %}
+        {% if q.type == 'discursive' %}
+        <div class="discursive-question-item" style="margin-bottom: 30px; margin-top: 20px;">
+            <div class="q-header">
+                <span class="q-number" style="font-weight: bold; margin-right: 5px;">Questão {{ loop.index }}</span>
+            </div>
+
+            <div class="essay-lines">
+                {% for i in range(4) %}
+                <div style="border-bottom: 1px solid #000; height: 20px; margin-top: 2px;"></div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Answer Key -->
+    <div class="answer-key-page">
+        <div class="exam-header">
+            {% if assessment.school_logo %}
+            <img src="{{ assessment.school_logo }}" class="school-logo" alt="Logo">
+            {% endif %}
+            <h2>Cartão Resposta</h2>
+        </div>
+
+        <div class="student-info">
+            <div class="info-row">
+                <span>Nome:</span>
+                <div class="info-line"></div>
+            </div>
+        </div>
+
+        <div class="bubble-grid">
+            {% for q in assessment.questions %}
+            <div class="bubble-row">
+                <span style="width: 20px; text-align: right; margin-right: 5px;">{{ loop.index }}</span>
+                {% if q.type == 'multiple_choice' %}
+                {% for opt in q.options %}
+                <div class="bubble">{{ ['Ⓐ', 'Ⓑ', 'Ⓒ', 'Ⓓ', 'Ⓔ'][loop.index0] }}</div>
+                {% endfor %}
+                {% elif q.type == 'true_false' %}
+                <div class="bubble">Ⓒ</div>
+                <div class="bubble">Ⓔ</div>
+                {% else %}
+                <span style="border-bottom: 1px solid #000; flex-grow: 1; margin-left: 5px;"></span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+
+</html>
