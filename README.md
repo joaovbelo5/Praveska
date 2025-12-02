@@ -35,7 +35,15 @@ O Praverka é uma aplicação web desenvolvida em Python com Flask para a criaç
    pip install -r requirements.txt
    ```
 
+
 5. **Atenção (Windows)**: Para que a geração de PDF funcione corretamente, o WeasyPrint requer o GTK3 ([Download](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer)). Se você encontrar erros ao gerar o PDF, certifique-se de ter o GTK3 Runtime instalado e adicionado ao PATH do sistema.
+
+6. **Atenção (Linux/Ubuntu Server)**: O projeto utiliza fontes (como Arial) que podem não estar instaladas por padrão em versões de servidor. Se os caracteres especiais (Ⓐ, Ⓑ, Ⓒ...) não aparecerem no PDF, instale as fontes necessárias:
+   ```bash
+   sudo apt-get install ttf-mscorefonts-installer
+   # Ou
+   sudo apt-get install fonts-noto
+   ```
 
 ## Como Usar
 
