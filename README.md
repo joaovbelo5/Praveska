@@ -1,6 +1,6 @@
-# Praverka (Gerador de Provas)
+# Praveska (Gerador de Provas)
 
-O Praverka é uma aplicação web desenvolvida em Python com Flask para a criação, gerenciamento e geração de avaliações escolares em formato PDF. O sistema permite criar provas com layout profissional, semelhante ao do ENEM, incluindo questões de múltipla escolha, discursivas e propostas de redação.
+O Praveska é uma aplicação web desenvolvida em Python com Flask para a criação, gerenciamento e geração de avaliações escolares em formato PDF. O sistema permite criar provas com layout profissional, semelhante ao do ENEM, incluindo questões de múltipla escolha, discursivas e propostas de redação.
 
 ## Funcionalidades
 
