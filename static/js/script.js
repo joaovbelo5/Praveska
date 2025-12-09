@@ -26,9 +26,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 reader.onload = function (e) {
                     document.getElementById('examLogo').value = e.target.result;
                     document.getElementById('logoPreview').src = e.target.result;
-                    document.getElementById('logoPreview').style.display = 'block';
+                    document.getElementById('logoPreviewContainer').style.display = 'block';
                 };
                 reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Initialize Essay Editor if element exists
+    const essayEditorEl = document.getElementById('essayTextsEditor');
+    if (essayEditorEl) {
+        window.essayQuill = new Quill('#essayTextsEditor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline'],
+                    ['image'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }]
+                ]
             }
         });
     }
@@ -70,7 +85,7 @@ function renderQuestions() {
 
     questions.forEach((q, index) => {
         const card = document.createElement('div');
-        card.className = 'card question-card mb-3'; // Added mb-3 for spacing
+        card.className = 'card question-card mb-4 shadow-sm border-0'; // Added shadow and removed default border (handled by CSS or just clean look)
 
         let typeLabel = '';
         if (q.type === 'multiple_choice') typeLabel = 'Múltipla Escolha';
@@ -78,31 +93,30 @@ function renderQuestions() {
         else if (q.type === 'discursive') typeLabel = 'Discursiva';
 
         let innerHTML = `
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <strong>Questão ${index + 1} - ${typeLabel}</strong>
-                <button onclick="removeQuestion(${index})" class="btn btn-sm btn-danger">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center border-bottom-0 pt-3 px-4">
+                <strong class="text-primary">Questão ${index + 1} - ${typeLabel}</strong>
+                <button onclick="removeQuestion(${index})" class="btn btn-sm btn-outline-danger border-0">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
-            <div class="card-body">
+            <div class="card-body px-4 pb-4">
                 <div class="mb-3">
-                    <label class="form-label">Enunciado</label>
-                    <!-- Quill Container -->
-                    <div id="editor-${index}" style="height: 150px; background: white;"></div>
+                    <label class="form-label small text-muted text-uppercase fw-bold">Enunciado</label>
+                    <div id="editor-${index}" style="height: 150px; background: white;" class="rounded-bottom"></div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Imagem URL (Opcional)</label>
-                    <input type="text" class="form-control" value="${q.image || ''}" onchange="updateQuestion(${index}, 'image', this.value)">
+                    <label class="form-label small text-muted text-uppercase fw-bold">Imagem URL (Opcional)</label>
+                    <input type="text" class="form-control bg-light" value="${q.image || ''}" onchange="updateQuestion(${index}, 'image', this.value)" placeholder="https://...">
                 </div>
         `;
 
         if (q.type === 'multiple_choice') {
-            innerHTML += `<label class="form-label">Alternativas</label>`;
+            innerHTML += `<label class="form-label small text-muted text-uppercase fw-bold mt-2">Alternativas</label>`;
             q.options.forEach((opt, i) => {
                 innerHTML += `
                     <div class="input-group mb-2">
-                        <span class="input-group-text">${String.fromCharCode(65 + i)}</span>
-                        <input type="text" class="form-control" value="${opt}" onchange="updateOption(${index}, ${i}, this.value)">
+                        <span class="input-group-text bg-light text-muted fw-bold border-end-0">${String.fromCharCode(65 + i)}</span>
+                        <input type="text" class="form-control border-start-0 ps-0" value="${opt}" onchange="updateOption(${index}, ${i}, this.value)">
                     </div>
                 `;
             });
@@ -151,7 +165,8 @@ function saveAssessment() {
         essay: {
             enabled: document.getElementById('essayEnabled').checked,
             theme: document.getElementById('essayTheme').value,
-            texts: document.getElementById('essayTexts').value.split('\n\n').filter(t => t.trim() !== ''),
+            // Save as a single HTML string in a list, to maintain compatibility with list structure
+            texts: window.essayQuill ? [window.essayQuill.root.innerHTML] : [],
             instructions: document.getElementById('essayInstructions').value
         },
         questions: questions

@@ -15,28 +15,32 @@
 
 <body>
     <!-- Cover Page -->
-    <div class="cover-page">
-        <div class="exam-header">
+    <div class="cover-page"
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 95vh; text-align: center;">
+        <div class="exam-header" style="border-bottom: none; margin-bottom: 2cm;">
             {% if assessment.school_logo %}
-            <img src="{{ assessment.school_logo }}" class="school-logo" alt="Logo">
+            <img src="{{ assessment.school_logo }}" class="school-logo" alt="Logo"
+                style="max-height: 120px; margin-bottom: 20px;">
             {% endif %}
-            <h1>{{ assessment.title }}</h1>
+            <h1 style="font-size: 2.5em; margin: 0;">{{ assessment.title }}</h1>
         </div>
 
-        <div class="student-info">
-            <div class="info-row">
-                <span>Nome do Aluno:</span>
-                <div class="info-line"></div>
+        <div class="student-info" style="width: 80%; border: none; padding: 0; margin-bottom: 2cm;">
+            <div class="info-row" style="margin-bottom: 15px;">
+                <span style="font-size: 1.2em; font-weight: bold;">Nome do Aluno:</span>
+                <div class="info-line" style="border-bottom: 2px solid #000;"></div>
             </div>
-            <div class="info-row">
-                <span>Turma: {{ assessment.class_name }}</span>
-                <span style="margin-left: 20px;">Data: {{ assessment.date }}</span>
+            <div class="info-row" style="justify-content: center; gap: 2cm; margin-top: 1cm;">
+                <span style="font-size: 1.2em;">Turma: <strong>{{ assessment.class_name }}</strong></span>
+                <span style="font-size: 1.2em;">Data: <strong>{{ assessment.date }}</strong></span>
             </div>
         </div>
 
-        <div class="instructions">
-            <h3>Instruções de Realização</h3>
-            <p>{{ assessment.instructions | replace('\n', '<br>') | safe }}</p>
+        <div class="instructions"
+            style="width: 80%; text-align: justify; border: 1px solid #000; padding: 20px; border-radius: 10px;">
+            <h3 style="text-align: center; margin-top: 0;">Instruções de Realização</h3>
+            <p style="font-size: 0.9em; line-height: 1.5;">{{ assessment.instructions | replace('\n', '<br>') | safe }}
+            </p>
         </div>
     </div>
 
@@ -45,8 +49,9 @@
         {% for q in assessment.questions %}
         <div class="question-item">
             <div class="q-header">
-                <span class="q-number">{{ loop.index }}.</span>
-                <span class="q-text">{{ q.text | safe }}</span>
+                <span class="q-number" style="float: left; padding-top: 0;">{{ loop.index }}.</span>
+                <div class="q-text" style="display: block;">{{ q.text | safe }}</div>
+                <div style="clear: both;"></div>
             </div>
 
             {% if q.image %}

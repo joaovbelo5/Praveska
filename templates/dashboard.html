@@ -1,48 +1,78 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Minhas Avaliações</h2>
-    <a href="{{ url_for('create') }}" class="btn btn-success">
-        <i class="fas fa-plus me-2"></i>Nova Prova
+<div class="d-flex justify-content-between align-items-center mb-5">
+    <div>
+        <h2 class="fw-bold mb-1">Minhas Avaliações</h2>
+        <p class="text-muted mb-0">Gerencie suas provas e atividades</p>
+    </div>
+    <a href="{{ url_for('create') }}" class="btn btn-primary d-flex align-items-center">
+        <i class="fas fa-plus me-2"></i>
+        <span>Nova Prova</span>
     </a>
 </div>
 
-<div class="row">
+<div class="row g-4">
     {% if assessments %}
     {% for assessment in assessments %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title">{{ assessment.title }}</h5>
-                <p class="card-text text-muted">
-                    <i class="far fa-calendar me-1"></i> {{ assessment.date }}<br>
-                    <i class="fas fa-users me-1"></i> {{ assessment.class_name }}
-                </p>
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm hover-elevate">
+            <div class="card-header bg-transparent border-0 pt-4 pb-0 px-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="badge bg-light text-primary rounded-pill px-3 py-2 mb-2">
+                        <i class="fas fa-book-open me-1"></i> Prova
+                    </div>
+                </div>
+                <h5 class="card-title fw-bold text-truncate mb-1" title="{{ assessment.title }}">{{ assessment.title }}
+                </h5>
             </div>
-            <div class="card-footer bg-white border-top-0 d-flex justify-content-between">
-                <div>
-                    <a href="{{ url_for('edit', assessment_id=assessment.id) }}"
-                        class="btn btn-sm btn-outline-primary me-1">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    <a href="{{ url_for('generate_pdf', assessment_id=assessment.id) }}"
-                        class="btn btn-sm btn-outline-dark" title="Baixar PDF">
-                        <i class="fas fa-file-pdf"></i>
+            <div class="card-body px-4 pt-2">
+                <div class="d-flex flex-column gap-2 text-muted small">
+                    <div class="d-flex align-items-center">
+                        <i class="far fa-calendar-alt w-20px me-2 text-center"></i>
+                        <span>{{ assessment.date or 'Sem data' }}</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-users w-20px me-2 text-center"></i>
+                        <span>{{ assessment.class_name or 'Sem turma' }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 px-4 pb-4 pt-0">
+                <hr class="text-muted opacity-10 my-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="{{ url_for('edit', assessment_id=assessment.id) }}"
+                            class="btn btn-light text-primary btn-sm" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ url_for('generate_pdf', assessment_id=assessment.id) }}"
+                            class="btn btn-light text-dark btn-sm" title="Baixar PDF">
+                            <i class="fas fa-file-pdf"></i>
+                        </a>
+                    </div>
+                    <a href="{{ url_for('delete', assessment_id=assessment.id) }}"
+                        class="btn btn-light text-danger btn-sm"
+                        onclick="return confirm('Tem certeza que deseja excluir?')" title="Excluir">
+                        <i class="fas fa-trash"></i>
                     </a>
                 </div>
-                <a href="{{ url_for('delete', assessment_id=assessment.id) }}" class="btn btn-sm btn-outline-danger"
-                    onclick="return confirm('Tem certeza que deseja excluir?')">
-                    <i class="fas fa-trash"></i>
-                </a>
             </div>
         </div>
     </div>
     {% endfor %}
     {% else %}
-    <div class="col-12 text-center mt-5">
-        <p class="text-muted">Nenhuma avaliação criada ainda.</p>
-        <a href="{{ url_for('create') }}" class="btn btn-primary">Criar Primeira Prova</a>
+    <div class="col-12">
+        <div class="text-center py-5 bg-white rounded-4 shadow-sm border border-dashed">
+            <div class="mb-4 text-muted opacity-50">
+                <i class="fas fa-folder-open fa-4x"></i>
+            </div>
+            <h4 class="fw-bold text-dark">Nenhuma avaliação encontrada</h4>
+            <p class="text-muted mb-4">Comece criando sua primeira prova agora mesmo.</p>
+            <a href="{{ url_for('create') }}" class="btn btn-primary px-4 py-2">
+                <i class="fas fa-plus me-2"></i> Criar Primeira Prova
+            </a>
+        </div>
     </div>
     {% endif %}
 </div>
