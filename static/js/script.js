@@ -47,6 +47,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // Migration for existing questions (string options -> object options)
+    if (questions && questions.length > 0) {
+        questions.forEach(q => {
+            if (q.type === 'multiple_choice' && q.options && q.options.length > 0) {
+                if (typeof q.options[0] === 'string') {
+                    q.options = q.options.map(opt => ({ text: opt, image: '' }));
+                }
+            }
+        });
+        renderQuestions();
+    }
 });
 
 function addQuestion(type) {
@@ -55,7 +67,9 @@ function addQuestion(type) {
         type: type,
         text: '',
         image: '',
-        options: type === 'multiple_choice' ? ['', '', '', '', ''] : []
+        options: type === 'multiple_choice'
+            ? Array(5).fill().map(() => ({ text: '', image: '' }))
+            : []
     };
     questions.push(newQ);
     renderQuestions();
@@ -72,8 +86,53 @@ function updateQuestion(index, field, value) {
     questions[index][field] = value;
 }
 
-function updateOption(qIndex, optIndex, value) {
-    questions[qIndex].options[optIndex] = value;
+function updateOption(qIndex, optIndex, field, value) {
+    questions[qIndex].options[optIndex][field] = value;
+}
+
+function uploadOptionImage(qIndex, optIndex, file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    fetch('/upload_image', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.url) {
+                updateOption(qIndex, optIndex, 'image', data.url);
+                renderQuestions(); // Re-render to show image
+            } else {
+                alert('Erro ao fazer upload da imagem');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Erro ao fazer upload da imagem');
+        });
+}
+
+function removeOptionImage(qIndex, optIndex) {
+    updateOption(qIndex, optIndex, 'image', '');
+    renderQuestions();
+}
+
+function handleOptionPaste(event, qIndex, optIndex) {
+    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    let blob = null;
+
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") === 0) {
+            blob = items[i].getAsFile();
+            break;
+        }
+    }
+
+    if (blob) {
+        event.preventDefault(); // Prevent pasting the image binary string/filename text if any
+        uploadOptionImage(qIndex, optIndex, blob);
+    }
 }
 
 let quillInstances = {};
@@ -85,7 +144,7 @@ function renderQuestions() {
 
     questions.forEach((q, index) => {
         const card = document.createElement('div');
-        card.className = 'card question-card mb-4 shadow-sm border-0'; // Added shadow and removed default border (handled by CSS or just clean look)
+        card.className = 'card question-card mb-4 shadow-sm border-0';
 
         let typeLabel = '';
         if (q.type === 'multiple_choice') typeLabel = 'Múltipla Escolha';
@@ -113,10 +172,28 @@ function renderQuestions() {
         if (q.type === 'multiple_choice') {
             innerHTML += `<label class="form-label small text-muted text-uppercase fw-bold mt-2">Alternativas</label>`;
             q.options.forEach((opt, i) => {
+                // Handle backward compatibility if render happens before migration (unlikely but safe)
+                const text = typeof opt === 'string' ? opt : opt.text;
+                const image = typeof opt === 'string' ? '' : opt.image;
+
                 innerHTML += `
-                    <div class="input-group mb-2">
-                        <span class="input-group-text bg-light text-muted fw-bold border-end-0">${String.fromCharCode(65 + i)}</span>
-                        <input type="text" class="form-control border-start-0 ps-0" value="${opt}" onchange="updateOption(${index}, ${i}, this.value)">
+                    <div class="mb-3 p-3 bg-light rounded border border-light">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text bg-white text-muted fw-bold border-end-0">${String.fromCharCode(65 + i)}</span>
+                            <input type="text" class="form-control border-start-0 ps-2" value="${text}" onchange="updateOption(${index}, ${i}, 'text', this.value)" onpaste="handleOptionPaste(event, ${index}, ${i})" placeholder="Texto da alternativa">
+                            <label class="btn btn-outline-secondary" title="Adicionar Imagem">
+                                <i class="fas fa-image"></i>
+                                <input type="file" accept="image/*" hidden onchange="uploadOptionImage(${index}, ${i}, this.files[0])">
+                            </label>
+                        </div>
+                        ${image ? `
+                            <div class="d-flex align-items-center mt-2">
+                                <img src="${image}" class="img-thumbnail me-3" style="height: 60px;">
+                                <button class="btn btn-sm btn-outline-danger" onclick="removeOptionImage(${index}, ${i})">
+                                    <i class="fas fa-times me-1"></i> Remover Imagem
+                                </button>
+                            </div>
+                        ` : ''}
                     </div>
                 `;
             });

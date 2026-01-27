@@ -57,11 +57,26 @@
             "id": 1765298878644,
             "image": "",
             "options": [
-                "A invasão da Polônia pela Alemanha.",
-                "O ataque japonês à base de Pearl Harbor.",
-                "O assassinato do arquiduque Francisco Ferdinando, herdeiro do trono austro-húngaro, em Sarajevo.",
-                "A disputa imperialista pela partilha da África na Conferência de Berlim.",
-                "A Revolução Russa que retirou a Rússia das alianças europeias."
+                {
+                    "image": "",
+                    "text": "A invasão da Polônia pela Alemanha."
+                },
+                {
+                    "image": "",
+                    "text": "O ataque japonês à base de Pearl Harbor."
+                },
+                {
+                    "image": "",
+                    "text": "O assassinato do arquiduque Francisco Ferdinando, herdeiro do trono austro-húngaro, em Sarajevo."
+                },
+                {
+                    "image": "",
+                    "text": "A disputa imperialista pela partilha da África na Conferência de Berlim."
+                },
+                {
+                    "image": "",
+                    "text": "A Revolução Russa que retirou a Rússia das alianças europeias."
+                }
             ],
             "text": "<p>Sobre a Primeira Guerra Mundial (1914-1918), assinale a alternativa que aponta corretamente o estopim do conflito:</p>",
             "type": "multiple_choice"
@@ -70,11 +85,26 @@
             "id": 1765298915949,
             "image": "",
             "options": [
-                "Amplas liberdades de imprensa e eleições diretas para presidente.",
-                "Criação do Departamento de Imprensa e Propaganda (DIP) para censura e exaltação do líder.",
-                "Desvalorização da industrialização e foco exclusivo na agricultura.",
-                "Alinhamento automático e irrestrito com a União Soviética desde o início.",
-                "Fortalecimento do Poder Legislativo em detrimento do Poder Executivo."
+                {
+                    "image": "",
+                    "text": "Amplas liberdades de imprensa e eleições diretas para presidente."
+                },
+                {
+                    "image": "",
+                    "text": "Criação do Departamento de Imprensa e Propaganda (DIP) para censura e exaltação do líder."
+                },
+                {
+                    "image": "",
+                    "text": "Desvalorização da industrialização e foco exclusivo na agricultura."
+                },
+                {
+                    "image": "",
+                    "text": "Alinhamento automático e irrestrito com a União Soviética desde o início."
+                },
+                {
+                    "image": "",
+                    "text": "Fortalecimento do Poder Legislativo em detrimento do Poder Executivo."
+                }
             ],
             "text": "<p>O \"Estado Novo\" (1937-1945) foi um período ditatorial da Era Vargas. Assinale a alternativa que apresenta uma característica central desse período:</p>",
             "type": "multiple_choice"
@@ -83,11 +113,26 @@
             "id": 1765298944079,
             "image": "",
             "options": [
-                "O início da abertura política e o retorno das eleições diretas.",
-                "O endurecimento do regime, permitindo o fechamento do Congresso e a suspensão de habeas corpus.",
-                "A anistia ampla, geral e irrestrita para todos os exilados políticos.",
-                "A criação de novos partidos políticos para aumentar a representatividade democrática.",
-                "O fim da censura prévia aos meios de comunicação e às artes."
+                {
+                    "image": "",
+                    "text": "O início da abertura política e o retorno das eleições diretas."
+                },
+                {
+                    "image": "",
+                    "text": "O endurecimento do regime, permitindo o fechamento do Congresso e a suspensão de habeas corpus."
+                },
+                {
+                    "image": "",
+                    "text": "A anistia ampla, geral e irrestrita para todos os exilados políticos."
+                },
+                {
+                    "image": "",
+                    "text": "A criação de novos partidos políticos para aumentar a representatividade democrática."
+                },
+                {
+                    "image": "",
+                    "text": "O fim da censura prévia aos meios de comunicação e às artes."
+                }
             ],
             "text": "<p>O Ato Institucional nº 5 (AI-5), decretado em 1968 durante a Ditadura Militar no Brasil, representou:</p>",
             "type": "multiple_choice"
@@ -96,11 +141,26 @@
             "id": 1765298976392,
             "image": "",
             "options": [
-                "Ocorreu de forma pacífica em todos os territórios, sem conflitos armados.",
-                "Foi um processo incentivado pelas potências europeias que desejavam se livrar de suas colônias voluntariamente.",
-                "Foi influenciado pelo enfraquecimento das potências europeias após a guerra e pelo crescimento dos movimentos nacionalistas locais.",
-                "Resultou na imediata estabilidade política e econômica de todos os novos países independentes.",
-                "Não teve nenhuma relação com o contexto da Guerra Fria e a disputa entre EUA e URSS."
+                {
+                    "image": "",
+                    "text": "Ocorreu de forma pacífica em todos os territórios, sem conflitos armados."
+                },
+                {
+                    "image": "",
+                    "text": "Foi um processo incentivado pelas potências europeias que desejavam se livrar de suas colônias voluntariamente."
+                },
+                {
+                    "image": "",
+                    "text": "Foi influenciado pelo enfraquecimento das potências europeias após a guerra e pelo crescimento dos movimentos nacionalistas locais."
+                },
+                {
+                    "image": "",
+                    "text": "Resultou na imediata estabilidade política e econômica de todos os novos países independentes."
+                },
+                {
+                    "image": "",
+                    "text": "Não teve nenhuma relação com o contexto da Guerra Fria e a disputa entre EUA e URSS."
+                }
             ],
             "text": "<p>Sobre o processo de descolonização da África e da Ásia após a Segunda Guerra Mundial, é correto afirmar:</p>",
             "type": "multiple_choice"
@@ -109,11 +169,26 @@
             "id": 1765299032452,
             "image": "",
             "options": [
-                "O início da Guerra Fria e o fortalecimento do bloco socialista.",
-                "O fim da ordem bipolar da Guerra Fria e o avanço do capitalismo e da democracia liberal no Leste Europeu.",
-                "A unificação da Europa sob um governo comunista.",
-                "O início da hegemonia chinesa como única superpotência mundial.",
-                "A volta das monarquias absolutistas no continente europeu."
+                {
+                    "image": "",
+                    "text": "O início da Guerra Fria e o fortalecimento do bloco socialista."
+                },
+                {
+                    "image": "",
+                    "text": "O fim da ordem bipolar da Guerra Fria e o avanço do capitalismo e da democracia liberal no Leste Europeu."
+                },
+                {
+                    "image": "",
+                    "text": "A unificação da Europa sob um governo comunista."
+                },
+                {
+                    "image": "",
+                    "text": "O início da hegemonia chinesa como única superpotência mundial."
+                },
+                {
+                    "image": "",
+                    "text": "A volta das monarquias absolutistas no continente europeu."
+                }
             ],
             "text": "<p>A queda do Muro de Berlim (1989) e a desintegração da União Soviética (1991) simbolizam:</p>",
             "type": "multiple_choice"
@@ -147,11 +222,32 @@
             "type": "discursive"
         },
         {
-            "id": 1765299087409,
+            "id": 1769550806740,
             "image": "",
-            "options": [],
-            "text": "<p>A Segunda Guerra Mundial terminou com o lançamento de bombas atômicas sobre o Japão. Discuta brevemente as consequências humanas e geopolíticas desse evento para o fim do conflito.</p>",
-            "type": "discursive"
+            "options": [
+                {
+                    "image": "/static/uploads/c85a02cc-9ca7-4aca-b427-2c8792016ee4.png",
+                    "text": ""
+                },
+                {
+                    "image": "",
+                    "text": " \\( 108\\pi \\text{ cm}^3 \\) "
+                },
+                {
+                    "image": "",
+                    "text": " \\( 27\\pi \\text{ cm}^3 \\) "
+                },
+                {
+                    "image": "",
+                    "text": " \\( 12\\pi \\text{ cm}^3 \\) "
+                },
+                {
+                    "image": "",
+                    "text": " \\( 9\\pi \\text{ cm}^3 \\) "
+                }
+            ],
+            "text": "<p>Calcule o volume de uma esfera com raio  . Utilize a fórmula do volume da esfera:</p><p><br></p>",
+            "type": "multiple_choice"
         }
     ]
 }

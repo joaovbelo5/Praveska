@@ -61,10 +61,26 @@
             {% if q.type == 'multiple_choice' %}
             <ul class="q-options">
                 {% for opt in q.options %}
+                {% if opt is string %}
+                {# Backward compatibility for string-only options #}
                 <li class="q-option">
                     <span class="q-option-marker">{{ 'ABCDE'[loop.index0] }})</span>
                     {{ opt }}
                 </li>
+                {% else %}
+                {# New object-based option with image support #}
+                <li class="q-option">
+                    <span class="q-option-marker">{{ 'ABCDE'[loop.index0] }})</span>
+                    <div style="display: inline-block; vertical-align: top;">
+                        {{ opt.text }}
+                        {% if opt.image %}
+                        <div style="margin-top: 5px;">
+                            <img src="{{ opt.image }}" style="max-height: 100px; max-width: 300px; display: block;">
+                        </div>
+                        {% endif %}
+                    </div>
+                </li>
+                {% endif %}
                 {% endfor %}
             </ul>
             {% elif q.type == 'true_false' %}

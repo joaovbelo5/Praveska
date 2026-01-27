@@ -196,5 +196,27 @@ def generate_pdf(assessment_id):
         flash(f"Erro inesperado ao gerar PDF: {str(e)}", "danger")
         return redirect(url_for('dashboard'))
 
+@app.route('/upload_image', methods=['POST'])
+def upload_image():
+    if 'user' not in session:
+        return {'error': 'Unauthorized'}, 401
+    
+    if 'file' not in request.files:
+        return {'error': 'No file part'}, 400
+        
+    file = request.files['file']
+    if file.filename == '':
+        return {'error': 'No selected file'}, 400
+        
+    if file:
+        filename = str(uuid.uuid4()) + os.path.splitext(file.filename)[1]
+        filepath = os.path.join(app.static_folder, 'uploads', filename)
+        file.save(filepath)
+        return {'url': url_for('static', filename=f'uploads/{filename}')}
+    
+    return {'error': 'Unknown error'}, 500
+
 if __name__ == '__main__':
+    # Ensure uploads directory exists
+    os.makedirs(os.path.join(app.static_folder, 'uploads'), exist_ok=True)
     app.run(port=5000, host='0.0.0.0', debug=False)
