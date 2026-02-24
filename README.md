@@ -31,7 +31,7 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento ou execuçã
 
 1.  **Clone o repositório e acesse o diretório:**
     ```bash
-    git clone <url-do-repositorio>
+    git clone https://github.com/joaovbelo5/Praveska.git
     cd praveska
     ```
 
