@@ -1,76 +1,100 @@
-# Praveska (Gerador de Provas)
+# Praveska
 
-O Praveska é uma aplicação web desenvolvida em Python com Flask para a criação, gerenciamento e geração de avaliações escolares em formato PDF. O sistema permite criar provas com layout profissional, semelhante ao do ENEM, incluindo questões de múltipla escolha, discursivas e propostas de redação.
+O **Praveska** é uma aplicação web desenvolvida em Python com o framework Flask, projetada para a criação, gerenciamento e geração automatizada de avaliações escolares em formato PDF. O sistema oferece um fluxo de trabalho completo para elaboração de provas com layout profissional, inspirado no modelo do ENEM, suportando questões de múltipla escolha, verdadeiro ou falso, discursivas e propostas de redação completas.
 
 ## Funcionalidades
 
-- **Gerenciamento de Avaliações**: Painel para criar, editar, listar e excluir provas.
-- **Editor de Questões**: Interface para adicionar e editar questões.
-- **Personalização**: Configuração de cabeçalho, instruções, colunas e fontes.
-- **Geração de PDF**: Exportação da prova formatada em PDF pronto para impressão.
-- **Autenticação**: Sistema de login simples (padrão: admin/admin).
-- **Armazenamento Local**: As avaliações são salvas localmente em arquivos JSON na pasta `data/assessments`.
+O sistema foi arquitetado para atender às necessidades de docentes e instituições de ensino que necessitam de avaliações padronizadas e prontas para impressão:
 
-## Pré-requisitos
+*   **Gerenciamento de Avaliações**: Interface administrativa para criar, editar, listar e excluir provas, com persistência de dados em arquivos JSON locais.
+*   **Editor de Questões**:
+    *   **Múltipla Escolha**: Suporte a 5 alternativas (A-E) com inclusão de imagens nos enunciados e opções.
+    *   **Verdadeiro ou Falso**: Geração automática de campos para marcação (C/E).
+    *   **Discursivas**: Espaços pautados configuráveis para respostas escritas.
+*   **Módulo de Redação**: Inclusão opcional de proposta de redação contendo textos motivadores, folha de rascunho pautada e folha definitiva com identificação do aluno.
+*   **Geração de PDF (WeasyPrint)**: Renderização de documentos de alta fidelidade contendo:
+    *   Capa com cabeçalho institucional (logo, nome da escola), dados do aluno e instruções de realização.
+    *   Diagramação automática em colunas (configurável).
+    *   Geração automática de **Cartão Resposta (Gabarito)** ao final do documento.
+*   **Personalização**: Configuração de fontes, layout de colunas e instruções específicas por prova.
+*   **Autenticação**: Sistema de login simplificado com hash de senhas via `flask_bcrypt`.
 
-- Python 3.8 ou superior.
-- **GTK3 Runtime** (Necessário para o WeasyPrint no Windows). [Download aqui](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer)
+## Pré-requisitos Técnicos
 
-## Instalação
+*   **Python 3.8+**
+*   **GTK3 Runtime** (Obrigatório para Windows): A biblioteca de geração de PDF `WeasyPrint` depende do GTK3 para renderização.
+*   **Fontes do Sistema** (Linux/Servidores): É necessário garantir a presença de fontes compatíveis (como Microsoft Core Fonts ou Noto) para renderização correta de caracteres especiais e layouts.
 
-1. Clone o repositório ou baixe os arquivos.
-2. Abra o terminal na pasta do projeto.
+## Instalação e Configuração
 
-3. Crie um ambiente virtual (recomendado):
-   ```bash
-   python -m venv venv
-   # Windows
-   venv\Scripts\activate
-   # Linux/Mac
-   source venv/bin/activate
-   ```
+Siga os passos abaixo para configurar o ambiente de desenvolvimento ou execução local:
 
-4. Instale as dependências:
-   ```bash
-   pip install -r requirements.txt
-   ```
+1.  **Clone o repositório e acesse o diretório:**
+    ```bash
+    git clone <url-do-repositorio>
+    cd praveska
+    ```
 
+2.  **Crie e ative um ambiente virtual (recomendado):**
+    *   Linux/macOS:
+        ```bash
+        python3 -m venv venv
+        source venv/bin/activate
+        ```
+    *   Windows:
+        ```bash
+        python -m venv venv
+        venv\Scripts\activate
+        ```
 
-5. **Atenção (Windows)**: Para que a geração de PDF funcione corretamente, o WeasyPrint requer o GTK3 ([Download](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer)). Se você encontrar erros ao gerar o PDF, certifique-se de ter o GTK3 Runtime instalado e adicionado ao PATH do sistema.
+3.  **Instale as dependências do projeto:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-6. **Atenção (Linux/Ubuntu Server)**: O projeto utiliza fontes (como Arial) que podem não estar instaladas por padrão em versões de servidor. Se os caracteres especiais (Ⓐ, Ⓑ, Ⓒ...) não aparecerem no PDF, instale as fontes necessárias:
-   ```bash
-   sudo apt-get install ttf-mscorefonts-installer
-   # Ou
-   sudo apt-get install fonts-noto
-   ```
+4.  **Configuração do Ambiente Windows (Crítico):**
+    Baixe e instale o **GTK3 Runtime** ([Link Oficial](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer)). Certifique-se de reiniciar o terminal após a instalação para que as variáveis de ambiente (PATH) sejam atualizadas. Sem isso, a geração do PDF falhará com erro de `OSError` ou `dll missing`.
 
-## Como Usar
+5.  **Configuração do Ambiente Linux (Ubuntu/Debian):**
+    Instale as bibliotecas gráficas e fontes necessárias se estiver em um ambiente headless ou servidor:
+    ```bash
+    sudo apt-get install python3-pip python3-cffi python3-brotli libpango-1.0-0 libpangoft2-1.0-0
+    sudo apt-get install ttf-mscorefonts-installer fonts-noto
+    ```
 
-1. Inicie a aplicação:
-   ```bash
-   python app.py
-   ```
+## Execução e Uso
 
-2. Acesse no navegador:
-   [http://127.0.0.1:5000](http://127.0.0.1:5000)
+1.  **Inicie o servidor de aplicação:**
+    ```bash
+    python app.py
+    ```
 
-3. Faça login com as credenciais padrão:
-   - **Usuário**: `admin`
-   - **Senha**: `admin`
+2.  **Acesse a interface web:**
+    Abra o navegador em [http://127.0.0.1:5000](http://127.0.0.1:5000).
+
+3.  **Autenticação:**
+    Utilize as credenciais padrão (configuradas para demonstração):
+    *   **Usuário**: `admin`
+    *   **Senha**: `admin`
+
+### Fluxo de Trabalho
+No painel principal (*Dashboard*), utilize a opção **"Nova Avaliação"** para iniciar. No editor, preencha os metadados (título, turma, data), adicione as questões desejadas e configure a proposta de redação se necessário. Após salvar, utilize o botão de geração de PDF para obter o arquivo final diagramado.
 
 ## Estrutura do Projeto
 
-- `app.py`: Arquivo principal da aplicação Flask contendo a lógica do backend e rotas.
-- `templates/`: Contém os templates HTML (Jinja2).
-  - `pdf_template.html`: Modelo base para a geração do PDF.
-  - `editor.html`: Interface de edição da prova.
-  - `dashboard.html`: Painel principal.
-- `static/`: Arquivos estáticos (CSS, JS).
-- `data/assessments/`: Diretório onde os dados das provas são persistidos em JSON.
-- `requirements.txt`: Lista de bibliotecas Python necessárias.
+A organização dos arquivos segue o padrão MVC simplificado do Flask:
+
+*   `app.py`: Ponto de entrada da aplicação, contendo rotas, lógica de controle e configurações do Flask.
+*   `data/assessments/`: Diretório de persistência onde as avaliações são salvas em formato JSON.
+*   `templates/`: Arquivos HTML (Jinja2).
+    *   `pdf_template.html`: Template mestre para a renderização do PDF, contendo toda a estrutura visual da prova.
+    *   `editor.html`: Interface de criação e edição de provas (SPA simplificada).
+    *   `dashboard.html`: Listagem das avaliações.
+*   `static/`: Arquivos CSS, JavaScript e imagens enviadas (uploads).
+*   `requirements.txt`: Lista de dependências Python.
 
 ## Notas de Desenvolvimento
 
-- A chave secreta da aplicação (`app.secret_key`) está definida no código para fins de desenvolvimento.
-- O sistema utiliza `flask_bcrypt` para hash de senhas, mas o usuário admin é verificado de forma simplificada no código atual.
+*   **Segurança**: A chave secreta (`app.secret_key`) está hardcoded no `app.py` para fins de desenvolvimento. Em produção, deve ser substituída por uma variável de ambiente.
+*   **Persistência**: O sistema não utiliza banco de dados relacional; a integridade dos dados depende da estrutura do sistema de arquivos na pasta `data/`.
+*   **Renderização**: A fidelidade visual do PDF depende das fontes instaladas no sistema operacional host. O template CSS (`static/css/pdf_style.css`) pode ser ajustado para modificar margens e espaçamentos.
