@@ -219,4 +219,4 @@ def upload_image():
 if __name__ == '__main__':
     # Ensure uploads directory exists
     os.makedirs(os.path.join(app.static_folder, 'uploads'), exist_ok=True)
-    app.run(port=5000, host='0.0.0.0', debug=False)
+    app.run(port=5020, host='0.0.0.0', debug=False)
