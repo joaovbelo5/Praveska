@@ -62,7 +62,28 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento ou execuçã
     sudo apt-get install ttf-mscorefonts-installer fonts-noto
     ```
 
-## Execução e Uso
+## Execução e Uso (Docker)
+
+A forma mais recomendada de rodar a aplicação é utilizando o Docker e o Docker Compose, pois resolve todas as dependências de sistema (GTK3 e Fontes) automaticamente e garante a persistência dos dados e imagens.
+
+1.  **Construa e inicie o container:**
+    No diretório raiz do projeto, execute o comando:
+    ```bash
+    docker compose up -d
+    ```
+
+2.  **Acesse a interface web:**
+    Abra o navegador em [http://127.0.0.1:5020](http://127.0.0.1:5020).
+    A porta foi ajustada para 5020 conforme a configuração da aplicação.
+
+3.  **Para parar a execução:**
+    ```bash
+    docker compose down
+    ```
+
+*(Nota: Os dados das avaliações e uploads de imagens são persistidos automaticamente através de volumes mapeados nas pastas `./data/assessments` e `./static/uploads`)*
+
+## Execução e Uso (Local - Sem Docker)
 
 1.  **Inicie o servidor de aplicação:**
     ```bash
@@ -70,7 +91,7 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento ou execuçã
     ```
 
 2.  **Acesse a interface web:**
-    Abra o navegador em [http://127.0.0.1:5000](http://127.0.0.1:5000).
+    Abra o navegador em [http://127.0.0.1:5020](http://127.0.0.1:5020).
 
 3.  **Autenticação:**
     Utilize as credenciais padrão (configuradas para demonstração):
